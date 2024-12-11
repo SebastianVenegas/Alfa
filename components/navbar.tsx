@@ -13,12 +13,10 @@ export function Navbar() {
   const handleScroll = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      // Close mobile menu first
       setIsOpen(false)
       
-      // Wait a tiny bit for any animations to complete
       setTimeout(() => {
-        const headerHeight = 80 // Adjust this to match your header height
+        const headerHeight = 80
         const elementPosition = element.offsetTop - headerHeight
         
         window.scrollTo({
@@ -107,30 +105,30 @@ export function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden bg-white absolute w-full left-0 shadow-lg"
+              className="md:hidden bg-white fixed top-16 left-0 right-0 z-50 shadow-lg"
             >
               <div className="flex flex-col py-4 px-4">
                 <button
                   onClick={() => handleScroll('services')}
-                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900"
+                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900 active:bg-gray-100"
                 >
                   Services
                 </button>
                 <button
                   onClick={() => handleScroll('about')}
-                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900"
+                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900 active:bg-gray-100"
                 >
                   About Us
                 </button>
                 <button
                   onClick={() => handleScroll('reviews')}
-                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900"
+                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900 active:bg-gray-100"
                 >
                   Reviews
                 </button>
                 <button
                   onClick={() => handleScroll('quote')}
-                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900"
+                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900 active:bg-gray-100"
                 >
                   Contact
                 </button>
