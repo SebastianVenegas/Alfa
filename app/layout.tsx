@@ -1,8 +1,8 @@
 import "@/styles/globals.css"
 import { Inter } from 'next/font/google'
 import { Navbar } from '@/components/navbar'
-import { TawkToWidget } from '@/components/tawk-to-widget'
 import { ThemeProvider } from '@/contexts/ThemeContext'
+import { TawkToWidget } from "@/components/tawk-to-widget"
 
 const inter = Inter({ subsets: ["latin"] })
 

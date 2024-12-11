@@ -1,174 +1,143 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
-import { Menu, MessageCircle } from 'lucide-react'
 import Image from "next/image"
-import { cn } from "@/lib/utils"
-import { openTawkToChat } from '@/components/tawk-to-widget'
-
-const navLinks = [
-  { href: "#quote", label: "Contact" },
-  { href: "#services", label: "Services" },
-  { href: "#about", label: "About Us" },
-  { href: "#reviews", label: "Customer Reviews" },
-]
+import { MessageSquare, Menu, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { motion, AnimatePresence } from "framer-motion"
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
+  const handleScroll = (id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      // Close mobile menu first
+      setIsOpen(false)
+      
+      // Wait a tiny bit for any animations to complete
+      setTimeout(() => {
+        const headerHeight = 80 // Adjust this to match your header height
+        const elementPosition = element.offsetTop - headerHeight
+        
+        window.scrollTo({
+          top: elementPosition,
+          behavior: 'smooth'
+        })
+      }, 10)
     }
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }
+
+  const openChat = () => {
+    if (window.Tawk_API) {
+      window.Tawk_API.maximize()
+    }
+  }
 
   return (
-    <header 
-      className={cn(
-        "fixed z-50 w-full transition-all duration-500",
-        isScrolled 
-          ? "bg-white/80 backdrop-blur-md border-b"
-          : "bg-transparent"
-      )}
-    >
-      <div className="container mx-auto flex h-20 items-center justify-between px-4">
-        <Link 
-          href="/" 
-          className="flex flex-col items-start relative group"
-        >
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col items-start"
-          >
-            <Image
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          <Link href="/">
+            <Image 
               src="/logo.png"
-              alt="Alfa Insurance Solutions"
-              width={200}
-              height={45}
-              className="h-10 w-auto transition-transform duration-300 group-hover:scale-105"
-              priority
+              alt="Logo"
+              width={120}
+              height={40}
+              className="h-8 w-auto"
             />
-            <span className={cn(
-              "text-[10px] mt-0.5 font-medium",
-              isScrolled ? "text-gray-400" : "text-gray-600"
-            )}>
-              Your Trusted Insurance Partner
-            </span>
-          </motion.div>
-        </Link>
-
-        <nav className="hidden lg:flex items-center space-x-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                "group relative px-3 py-2 text-sm font-medium transition-colors",
-                isScrolled 
-                  ? "text-gray-600 hover:text-gray-900" 
-                  : "text-gray-600 hover:text-gray-900"
-              )}
-              onClick={(e) => {
-                e.preventDefault()
-                document.querySelector(link.href)?.scrollIntoView({ 
-                  behavior: "smooth" 
-                })
-              }}
+          </Link>
+          
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <button
+              onClick={() => handleScroll('services')}
+              className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
             >
-              {link.label}
-              <span className="absolute inset-x-0 -bottom-0.5 h-0.5 bg-blue-500 origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
-            </Link>
-          ))}
-        </nav>
-
-        <div className="hidden lg:flex items-center space-x-4">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Button
-              size="lg"
-              onClick={openTawkToChat}
-              className="bg-blue-600 text-white shadow-lg transition-all duration-300 group hover:bg-blue-700"
+              Services
+            </button>
+            <button
+              onClick={() => handleScroll('about')}
+              className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
             >
-              <MessageCircle className="mr-2 h-5 w-5 transition-transform group-hover:rotate-12" />
-              Chat Now
+              About Us
+            </button>
+            <button
+              onClick={() => handleScroll('reviews')}
+              className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+            >
+              Reviews
+            </button>
+            <button
+              onClick={() => handleScroll('quote')}
+              className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+            >
+              Contact
+            </button>
+          </nav>
+          
+          <div className="flex items-center gap-4">
+            <Button 
+              onClick={openChat}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              <MessageSquare className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Chat Now</span>
             </Button>
-          </motion.div>
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100"
+            >
+              {isOpen ? (
+                <X className="h-6 w-6 text-gray-600" />
+              ) : (
+                <Menu className="h-6 w-6 text-gray-600" />
+              )}
+            </button>
+          </div>
         </div>
 
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger asChild className="lg:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600"
-            >
-              <motion.div
-                initial={false}
-                animate={isOpen ? "open" : "closed"}
-                variants={{
-                  open: { rotate: 180 },
-                  closed: { rotate: 0 }
-                }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-              >
-                <Menu className="h-6 w-6" />
-              </motion.div>
-            </Button>
-          </SheetTrigger>
-          <SheetContent 
-            side="right" 
-            className="w-[300px] sm:w-[400px] p-6"
-          >
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isOpen && (
             <motion.div
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden bg-white absolute w-full left-0 shadow-lg"
             >
-              <SheetTitle className="text-lg font-semibold mb-4 text-gray-900">
-                Menu
-              </SheetTitle>
-              <nav className="flex flex-col space-y-4 mt-6">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-sm font-medium transition-colors text-gray-600 hover:text-gray-900"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      document.querySelector(link.href)?.scrollIntoView({ 
-                        behavior: "smooth" 
-                      })
-                      setIsOpen(false)
-                    }}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                <div className="pt-4">
-                  <Button
-                    size="lg"
-                    onClick={openTawkToChat}
-                    className="w-full bg-blue-600 text-white shadow-lg transition-all duration-300 hover:bg-blue-700"
-                  >
-                    <MessageCircle className="mr-2 h-4 w-4" />
-                    Chat Now
-                  </Button>
-                </div>
-              </nav>
+              <div className="flex flex-col py-4 px-4">
+                <button
+                  onClick={() => handleScroll('services')}
+                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900"
+                >
+                  Services
+                </button>
+                <button
+                  onClick={() => handleScroll('about')}
+                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900"
+                >
+                  About Us
+                </button>
+                <button
+                  onClick={() => handleScroll('reviews')}
+                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900"
+                >
+                  Reviews
+                </button>
+                <button
+                  onClick={() => handleScroll('quote')}
+                  className="w-full text-left py-3 text-gray-600 hover:text-gray-900"
+                >
+                  Contact
+                </button>
+              </div>
             </motion.div>
-          </SheetContent>
-        </Sheet>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   )
