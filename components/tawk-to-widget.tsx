@@ -4,7 +4,10 @@ import { useEffect } from 'react'
 
 declare global {
   interface Window {
-    Tawk_API?: any
+    Tawk_API?: {
+      toggle?: () => void;
+      maximize?: () => void;
+    }
   }
 }
 
@@ -23,7 +26,7 @@ export function TawkToWidget() {
 }
 
 export function openTawkToChat() {
-  if (window.Tawk_API) {
+  if (window.Tawk_API?.maximize) {
     window.Tawk_API.maximize()
   }
-} 
+}

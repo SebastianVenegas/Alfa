@@ -68,7 +68,7 @@ export default function Home() {
       <div className="relative">
         {/* Enhanced Background */}
         <div className={cn(
-          "absolute inset-0",
+          "absolute inset-0 pointer-events-none",
           isDark 
             ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
             : "bg-gradient-to-br from-gray-50 via-white to-gray-50"
@@ -76,13 +76,13 @@ export default function Home() {
         
         {/* Subtle grid pattern */}
         <div 
-          className="absolute inset-0 opacity-[0.02]" 
+          className="absolute inset-0 opacity-[0.02] pointer-events-none" 
           style={{ 
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }}
         />
 
-        <div className="relative">
+        <div className="relative z-10">
           <div className="container mx-auto px-4 pt-32 pb-20">
             <div className="flex flex-col lg:flex-row items-center gap-16">
               {/* Left Column - Hero Content */}
@@ -192,7 +192,7 @@ export default function Home() {
               </div>
 
               {/* Right Column - Quote Form */}
-              <div className="flex-1 w-full max-w-md">
+              <div id="quote" className="flex-1 w-full max-w-md">
                 <Card className={cn(
                   "p-6 rounded-2xl shadow-xl backdrop-blur-sm",
                   isDark ? "bg-gray-800/80" : "bg-white/80"
@@ -346,12 +346,26 @@ export default function Home() {
             </div>
           </div>
 
-          <ServicesSection />
-          <AboutSection />
-          <ValuesSection />
-          <TestimonialsSection />
-          <CTASection />
-          <Footer />
+          <div className="relative z-50">
+            <div id="services-section">
+              <ServicesSection />
+            </div>
+            
+            <div id="about-section">
+              <AboutSection />
+            </div>
+            
+            <div id="reviews-section">
+              <TestimonialsSection />
+            </div>
+            
+            <div id="contact-section">
+              {/* Your quote/contact form section */}
+            </div>
+            
+            <CTASection />
+            <Footer />
+          </div>
         </div>
       </div>
     </div>

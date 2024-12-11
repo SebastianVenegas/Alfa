@@ -42,7 +42,7 @@ const services = {
     { 
       title: "Commercial Auto",
       description: "Protects commercial vehicles from collision damage, theft, and liability claims.",
-      image: "/Trailer.png"
+      image: "/Semi.png"
     }
   ],
   property: [
