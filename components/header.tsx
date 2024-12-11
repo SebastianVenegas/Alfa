@@ -3,13 +3,10 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion } from "framer-motion"
-import { Menu, X, MessageSquare } from "lucide-react"
+import { MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
   const navItems = [
     { label: "Personal Insurance", href: "/personal" },
     { label: "Commercial Insurance", href: "/commercial" },
