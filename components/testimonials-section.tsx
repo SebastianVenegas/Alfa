@@ -71,10 +71,7 @@ export function TestimonialsSection() {
   }
 
   return (
-    <section className={cn(
-      "py-24 relative overflow-hidden",
-      isDark ? "bg-gray-900" : "bg-gray-50"
-    )}>
+    <section id="reviews" className="relative py-24 overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02]" />
       <div className={cn(

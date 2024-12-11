@@ -111,3 +111,7 @@
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
 }
 
+html {
+  scroll-padding-top: 80px; /* Adjust this value based on your navbar height */
+}
+

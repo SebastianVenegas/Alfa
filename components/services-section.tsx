@@ -89,7 +89,7 @@ export function ServicesSection() {
   }
 
   return (
-    <section className="py-24">
+    <div id="services" className="py-24">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold mb-12 text-gray-900">
           Explore our insurance products
@@ -150,6 +150,6 @@ export function ServicesSection() {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   )
 }

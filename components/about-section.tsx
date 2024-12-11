@@ -31,10 +31,7 @@ export function AboutSection() {
   ]
 
   return (
-    <section className={cn(
-      "py-12 md:py-24 relative overflow-hidden",
-      isDark ? "bg-gray-900" : "bg-gray-100"
-    )}>
+    <div id="about" className="py-24">
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02]" />
       
       <div className="container px-4 mx-auto relative">
@@ -220,6 +217,6 @@ export function AboutSection() {
           </motion.div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }

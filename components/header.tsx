@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { MessageSquare } from "lucide-react"
@@ -8,12 +7,22 @@ import { Button } from "@/components/ui/button"
 
 export function Header() {
   const navItems = [
-    { label: "Personal Insurance", href: "/personal" },
-    { label: "Commercial Insurance", href: "/commercial" },
-    { label: "Life & Retirement", href: "/life" },
-    { label: "Auto Registration", href: "/auto" },
-    { label: "Contact", href: "/contact" },
+    { label: "Personal Insurance", href: "#personal" },
+    { label: "Commercial Insurance", href: "#commercial" },
+    { label: "Life & Retirement", href: "#life" },
+    { label: "Auto Registration", href: "#auto" },
+    { label: "Contact", href: "#contact" },
   ]
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId.replace('#', ''))
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
@@ -31,13 +40,13 @@ export function Header() {
           
           <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <Link
+              <button
                 key={item.href}
-                href={item.href}
+                onClick={() => scrollToSection(item.href)}
                 className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
               >
                 {item.label}
-              </Link>
+              </button>
             ))}
           </nav>
           
