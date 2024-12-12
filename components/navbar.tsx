@@ -93,7 +93,7 @@ export function Navbar() {
             Reviews
           </button>
           <button 
-            onClick={() => scrollToSection('contact-section')}
+            onClick={() => scrollToSection('quote-section')}
             className="text-gray-700 text-sm font-medium hover:text-blue-600 transition-colors"
           >
             Contact
@@ -146,7 +146,7 @@ export function Navbar() {
               Reviews
             </button>
             <button 
-              onClick={() => scrollToSection('contact-section')}
+              onClick={() => scrollToSection('quote-section')}
               className="text-gray-700 text-sm font-medium py-2 hover:text-blue-600 transition-colors"
             >
               Contact

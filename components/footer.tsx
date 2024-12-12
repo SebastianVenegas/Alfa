@@ -66,6 +66,22 @@ export function Footer() {
     }
   ]
 
+  const scrollToQuote = () => {
+    const element = document.getElementById('quote-section')
+    if (element) {
+      const offset = 80 // header height
+      const bodyRect = document.body.getBoundingClientRect().top
+      const elementRect = element.getBoundingClientRect().top
+      const elementPosition = elementRect - bodyRect
+      const offsetPosition = elementPosition - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      })
+    }
+  }
+
   return (
     <footer className="bg-white">
       {/* CTA Section */}
@@ -80,10 +96,7 @@ export function Footer() {
         <Button 
           size="lg"
           className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-          onClick={() => {
-            const quoteSection = document.querySelector('#quote')
-            quoteSection?.scrollIntoView({ behavior: 'smooth' })
-          }}
+          onClick={scrollToQuote}
         >
           Get Your Free Quote ↑
         </Button>

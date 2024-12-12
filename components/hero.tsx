@@ -24,12 +24,65 @@ export function HeroSection() {
     try {
       // Your form submission logic here
       
-      // Trigger confetti
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
+      // Festive confetti configuration
+      const defaults = {
+        particleCount: 150,
+        spread: 360, // Full spread
+        startVelocity: 45,
+        gravity: 0.8,
+        ticks: 400,
+        shapes: ['square', 'circle'],
+        colors: [
+          '#FF0000', // Red
+          '#00FF00', // Green
+          '#0000FF', // Blue
+          '#FFFF00', // Yellow
+          '#FF00FF', // Magenta
+          '#00FFFF', // Cyan
+          '#FFA500', // Orange
+          '#FF1493', // Pink
+          '#FFD700'  // Gold
+        ],
+        origin: { x: 0.5, y: 0.2 }, // Start from top-center
+        scalar: 1,
+        zIndex: 100,
+        disableForReducedMotion: true
+      }
+
+      function fire(particleRatio: number, opts: any) {
+        confetti({
+          ...defaults,
+          ...opts,
+          particleCount: Math.floor(defaults.particleCount * particleRatio)
+        })
+      }
+
+      // Multiple bursts from different positions
+      fire(0.25, {
+        spread: 360,
+        origin: { x: 0, y: 0.3 }
       })
+
+      fire(0.25, {
+        spread: 360,
+        origin: { x: 1, y: 0.3 }
+      })
+
+      fire(0.25, {
+        spread: 360,
+        origin: { x: 0.5, y: 0.3 }
+      })
+
+      setTimeout(() => {
+        fire(0.2, {
+          spread: 360,
+          origin: { x: 0.2, y: 0.5 }
+        })
+        fire(0.2, {
+          spread: 360,
+          origin: { x: 0.8, y: 0.5 }
+        })
+      }, 200)
 
       // Show success state
       setIsSubmitted(true)
@@ -49,7 +102,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className="relative min-h-[600px] md:min-h-[900px] pt-8 md:pt-12">
+    <section id="quote-section" className="relative min-h-[600px] md:min-h-[900px] pt-8 md:pt-12">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image

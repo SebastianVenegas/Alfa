@@ -19,20 +19,48 @@ export default function Page() {
   const { width, height } = useWindowSize();
   const [isQuoteSent, setIsQuoteSent] = useState(false);
 
-  useEffect(() => {
-    // Put any browser-only code here
+  // Add scroll handler utility
+  const scrollToSection = useCallback((sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    const offset = 80; // Adjust this value based on your header height
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = element?.getBoundingClientRect().top ?? 0;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition - offset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
   }, []);
+
+  useEffect(() => {
+    // Handle hash changes for direct links
+    const handleHash = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const sectionId = hash.replace('#', '');
+        setTimeout(() => scrollToSection(sectionId), 100);
+      }
+    };
+
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, [scrollToSection]);
 
   return (
     <div className={cn("min-h-screen relative", "bg-white")}>
       {isQuoteSent && (
-        <ReactConfetti
-          width={width}
-          height={height}
-          recycle={false}
-          numberOfPieces={500}
-          gravity={0.3}
-        />
+        <div className="fixed inset-0 z-50 pointer-events-none">
+          <ReactConfetti
+            width={width}
+            height={document.documentElement.scrollHeight}
+            recycle={false}
+            numberOfPieces={500}
+            gravity={0.3}
+          />
+        </div>
       )}
       <div className="relative">
         {/* Background Gradient */}
@@ -44,25 +72,24 @@ export default function Page() {
         />
 
         <div className="relative z-10">
-          {/* Hero Section */}
-          <HeroSection />
+          {/* Hero Section with Quote Form */}
+          <section id="quote-section" className="scroll-mt-20">
+            <HeroSection />
+          </section>
 
-          {/* Services Section */}
-          <div id="services-section" className="relative z-10">
+          {/* Other sections */}
+          <section id="services-section" className="relative z-10 scroll-mt-20">
             <ServicesSection />
-          </div>
+          </section>
 
-          {/* About Section */}
-          <div id="about-section">
+          <section id="about-section" className="scroll-mt-20">
             <AboutSection />
-          </div>
+          </section>
 
-          {/* Reviews Section */}
-          <div id="reviews-section">
+          <section id="reviews-section" className="scroll-mt-20">
             <ClientReviewsSection />
-          </div>
+          </section>
 
-          {/* Footer Section */}
           <div id="footer-section" className="relative z-20">
             <Footer />
           </div>
