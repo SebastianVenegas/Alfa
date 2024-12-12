@@ -49,7 +49,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className="relative min-h-[900px] pt-12">
+    <section className="relative min-h-[600px] md:min-h-[900px] pt-8 md:pt-12">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -62,29 +62,37 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="container mx-auto px-8 py-28 relative z-10">
-        <div className="grid lg:grid-cols-5 gap-16 items-center">
+      <div className="container mx-auto px-4 md:px-8 py-16 md:py-28 relative z-10">
+        <div className="grid lg:grid-cols-5 gap-8 md:gap-16 items-center">
           {/* Left column - Content */}
           <div className="lg:col-span-3">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-14"
+              className="space-y-8 md:space-y-14"
             >
               {/* Trust Badge */}
-              <div className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white">
-                <span className="text-amber-400 text-2xl">⭐</span>
-                <span className="text-[#1E293B] text-xl font-medium">
+              <div className="inline-flex items-center gap-2 md:gap-3 px-4 md:px-8 py-2 md:py-4 rounded-full bg-white">
+                <span className="text-amber-400 text-lg md:text-2xl">⭐</span>
+                <span className="text-[#1E293B] text-base md:text-xl font-medium">
                   Trusted by 10,000+ Happy Clients
                 </span>
               </div>
               
-              {/* Main Heading */}
-              <h1 className="text-[85px] leading-[1.1] font-bold tracking-tight">
-                <span className="text-white">Protect What</span>
-                <br />
-                <span className="text-[#4169E1]">Matters Most</span>
-              </h1>
+              {/* Main Heading with Subheading */}
+              <div className="space-y-6">
+                <h1 className="text-[42px] md:text-[85px] leading-[1.1] font-bold tracking-tight">
+                  <span className="text-white">Protection for</span>
+                  <br />
+                  <span className="text-[#4169E1]">Life's Journey</span>
+                </h1>
+                
+                <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 md:p-6 inline-block shadow-lg">
+                  <p className="text-xl md:text-2xl text-[#1E293B] font-medium max-w-2xl">
+                    Comprehensive coverage for your home, auto, life, and business. All in one place.
+                  </p>
+                </div>
+              </div>
             </motion.div>
           </div>
 
