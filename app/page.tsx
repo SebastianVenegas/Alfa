@@ -1,91 +1,72 @@
-"use client"
+"use client";
 
-import { useState, useCallback, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card } from "@/components/ui/card"
-import { Car, Truck, HomeIcon, Shield, Star, ArrowRight, CheckCircle } from 'lucide-react'
-import { ServicesSection } from "@/components/services-section"
-import { AboutSection } from "@/components/about-section"
-import { ValuesSection } from "@/components/values-section"
-import { TestimonialsSection } from "@/components/testimonials-section"
-import { CTASection } from "@/components/cta-section"
-import { Footer } from "@/components/footer"
-import { cn } from "@/lib/utils"
-import ReactConfetti from 'react-confetti'
-import { useWindowSize } from 'react-use'
-import { useTheme } from "@/contexts/ThemeContext"
+import { useState, useCallback, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { Car, Truck, HomeIcon, Shield, CheckCircle } from "lucide-react";
+import { ServicesSection } from "@/components/services-section";
+import { AboutSection } from "@/components/about-section";
+import { Footer } from "@/components/footer";
+import { cn } from "@/lib/utils";
+import ReactConfetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
+import { ClientReviewsSection } from "@/components/client-reviews-section";
 
-export default function Home() {
-  const [selectedInsurance, setSelectedInsurance] = useState<string | null>(null)
-  const [isQuoteSent, setIsQuoteSent] = useState(false)
-  const [showConfetti, setShowConfetti] = useState(false)
-  const { width, height } = useWindowSize()
-  const { isDark } = useTheme()
+export default function Page() {
+  const { width, height } = useWindowSize();
+  const [selectedInsurance, setSelectedInsurance] = useState<string | null>(
+    null
+  );
+  const [isQuoteSent, setIsQuoteSent] = useState(false);
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault()
-    // Simulate form submission delay
-    setTimeout(() => {
-      setIsQuoteSent(true)
-      setShowConfetti(true)
-    }, 500)
-  }, [])
-1
-  const resetForm = useCallback(() => {
-    setIsQuoteSent(false)
-    setSelectedInsurance(null)
-  }, [])
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!selectedInsurance) {
+        alert("Please select an insurance type.");
+        return;
+      }
+      setIsQuoteSent(true);
+    },
+    [selectedInsurance]
+  );
+
+  const handleReset = useCallback(() => {
+    setSelectedInsurance(null);
+    setIsQuoteSent(false);
+  }, []);
 
   useEffect(() => {
-    if (showConfetti) {
-      const timer = setTimeout(() => setShowConfetti(false), 5000)
-      return () => clearTimeout(timer)
-    }
-  }, [showConfetti])
-
-  const insuranceTypes = [
-    { icon: Car, label: "Auto Insurance" },
-    { icon: Truck, label: "Commercial Trucks" },
-    { icon: HomeIcon, label: "Property Insurance" },
-    { icon: Shield, label: "Life Insurance" }
-  ]
+    // Put any browser-only code here
+  }, []);
 
   return (
-    <div className={cn("min-h-screen", isDark ? "bg-gray-900" : "bg-white")}>
-      {showConfetti && (
+    <div className={cn("min-h-screen relative", "bg-white")}>
+      {isQuoteSent && (
         <ReactConfetti
           width={width}
           height={height}
           recycle={false}
-          numberOfPieces={200}
-          gravity={0.1}
-          initialVelocityY={20}
-          colors={['#FFD700', '#FF6B6B', '#4CAF50', '#2196F3']}
+          numberOfPieces={500}
+          gravity={0.3}
         />
       )}
       <div className="relative">
-        {/* Enhanced Background */}
-        <div className={cn(
-          "absolute inset-0 pointer-events-none",
-          isDark 
-            ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"
-            : "bg-gradient-to-br from-gray-50 via-white to-gray-50"
-        )} />
-        
-        {/* Subtle grid pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.02] pointer-events-none" 
-          style={{ 
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2V6h4V4H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
+        {/* Background Gradient */}
+        <div
+          className={cn(
+            "absolute inset-0 pointer-events-none",
+            "bg-gradient-to-br from-gray-50 via-white to-gray-50"
+          )}
         />
 
         <div className="relative z-10">
+          {/* Hero Section */}
           <div className="container mx-auto px-4 pt-32 pb-20">
             <div className="flex flex-col lg:flex-row items-center gap-16">
-              {/* Left Column - Hero Content */}
+              {/* Left Column */}
               <div className="flex-1 text-center lg:text-left">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -105,269 +86,193 @@ export default function Home() {
                   transition={{ duration: 0.5, delay: 0.1 }}
                   className="text-5xl lg:text-7xl font-bold tracking-tight mb-6"
                 >
-                  <span className={isDark ? "text-white" : "text-gray-900"}>
-                    Insurance Solutions
-                  </span>
+                  <span className="text-gray-900">Insurance Solutions</span>
                   <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">
                     That Work for You
                   </span>
                 </motion.h1>
-
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className={cn(
-                    "text-xl mb-8 max-w-2xl mx-auto lg:mx-0",
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  )}
-                >
-                  Get comprehensive coverage for your vehicles, property, and business with
-                  personalized service and support.
-                </motion.p>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="flex flex-col sm:flex-row items-center gap-6 justify-center lg:justify-start"
-                >
-                  <Button
-                    size="lg"
-                    className="text-lg px-8 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    Start Your Quote
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-
-                  <div className={cn(
-                    "flex items-center gap-4 px-6 py-3 rounded-full",
-                    isDark ? "bg-gray-800" : "bg-gray-100"
-                  )}>
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={cn(
-                            "h-5 w-5",
-                            i < 4 
-                              ? "text-yellow-500 fill-yellow-500" 
-                              : "text-gray-300 fill-gray-300"
-                          )}
-                        />
-                      ))}
-                    </div>
-                    <div>
-                      <div className={cn(
-                        "font-semibold",
-                        isDark ? "text-white" : "text-gray-900"
-                      )}>
-                        4.9/5 rating
-                      </div>
-                      <div className={cn(
-                        "text-sm",
-                        isDark ? "text-gray-400" : "text-gray-600"
-                      )}>
-                        from our clients
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.blockquote
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className={cn(
-                    "mt-8 text-lg italic",
-                    isDark ? "text-gray-300" : "text-gray-600"
-                  )}
-                >
-                  "Alfa Insurance made finding the right coverage a breeze. Highly recommended!"
-                  <footer className="mt-2 font-medium">
-                    - Sarah J., Satisfied Customer
-                  </footer>
-                </motion.blockquote>
               </div>
 
-              {/* Right Column - Quote Form */}
-              <div id="quote" className="flex-1 w-full max-w-md">
-                <Card className={cn(
-                  "p-6 rounded-2xl shadow-xl backdrop-blur-sm",
-                  isDark ? "bg-gray-800/80" : "bg-white/80"
-                )}>
-                  <h2 className={cn(
-                    "text-2xl font-bold mb-6 text-center",
-                    isDark ? "text-white" : "text-gray-900"
-                  )}>
+              {/* Quote Section */}
+              <div
+                id="quote"
+                className="flex-1 w-full max-w-lg relative z-20 pointer-events-auto"
+              >
+                <Card className="p-8 rounded-3xl shadow-xl border border-gray-200 bg-white">
+                  <h2 className="text-3xl font-semibold text-center text-gray-800 mb-8">
                     Get a Free Quote
                   </h2>
-                  <AnimatePresence mode="wait">
-                    {isQuoteSent ? (
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-center"
+                  {isQuoteSent ? (
+                    <div className="text-center">
+                      <CheckCircle className="w-16 h-16 mx-auto text-green-500 mb-4" />
+                      <h3 className="text-xl font-bold text-gray-800">
+                        Quote Sent!
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-6">
+                        Thank you! We'll contact you shortly.
+                      </p>
+                      <Button
+                        onClick={handleReset}
+                        className="w-full py-3 text-lg font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                       >
-                        <CheckCircle className="w-16 h-16 mx-auto mb-4 text-green-500" />
-                        <h3 className={cn(
-                          "text-xl font-semibold mb-2",
-                          isDark ? "text-white" : "text-gray-900"
-                        )}>
-                          Quote Sent!
-                        </h3>
-                        <p className={cn(
-                          "text-sm mb-6",
-                          isDark ? "text-gray-300" : "text-gray-600"
-                        )}>
-                          Thank you for your interest. We'll get back to you shortly with your personalized quote.
-                        </p>
-                        <Button
-                          onClick={resetForm}
-                          className="px-6 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white"
+                        Request Another Quote
+                      </Button>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      {/* Insurance Options */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <div
+                          className={`p-4 rounded-lg border cursor-pointer transition ${
+                            selectedInsurance === "Auto Insurance"
+                              ? "bg-blue-100 border-blue-500"
+                              : "border-gray-200 hover:border-blue-400"
+                          }`}
+                          onClick={() => setSelectedInsurance("Auto Insurance")}
                         >
-                          Submit Another Quote
-                        </Button>
-                      </motion.div>
-                    ) : (
-                      <motion.form
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5 }}
-                        onSubmit={handleSubmit}
-                        className="space-y-6"
+                          <Car
+                            className={`h-8 w-8 mx-auto ${
+                              selectedInsurance === "Auto Insurance"
+                                ? "text-blue-500"
+                                : "text-gray-400"
+                            }`}
+                          />
+                          <p className="mt-2 text-center text-sm font-medium text-gray-800">
+                            Auto Insurance
+                          </p>
+                        </div>
+                        <div
+                          className={`p-4 rounded-lg border cursor-pointer transition ${
+                            selectedInsurance === "Commercial Trucks"
+                              ? "bg-blue-100 border-blue-500"
+                              : "border-gray-200 hover:border-blue-400"
+                          }`}
+                          onClick={() =>
+                            setSelectedInsurance("Commercial Trucks")
+                          }
+                        >
+                          <Truck
+                            className={`h-8 w-8 mx-auto ${
+                              selectedInsurance === "Commercial Trucks"
+                                ? "text-blue-500"
+                                : "text-gray-400"
+                            }`}
+                          />
+                          <p className="mt-2 text-center text-sm font-medium text-gray-800">
+                            Commercial Trucks
+                          </p>
+                        </div>
+                        <div
+                          className={`p-4 rounded-lg border cursor-pointer transition ${
+                            selectedInsurance === "Property Insurance"
+                              ? "bg-blue-100 border-blue-500"
+                              : "border-gray-200 hover:border-blue-400"
+                          }`}
+                          onClick={() =>
+                            setSelectedInsurance("Property Insurance")
+                          }
+                        >
+                          <HomeIcon
+                            className={`h-8 w-8 mx-auto ${
+                              selectedInsurance === "Property Insurance"
+                                ? "text-blue-500"
+                                : "text-gray-400"
+                            }`}
+                          />
+                          <p className="mt-2 text-center text-sm font-medium text-gray-800">
+                            Property Insurance
+                          </p>
+                        </div>
+                        <div
+                          className={`p-4 rounded-lg border cursor-pointer transition ${
+                            selectedInsurance === "Life Insurance"
+                              ? "bg-blue-100 border-blue-500"
+                              : "border-gray-200 hover:border-blue-400"
+                          }`}
+                          onClick={() =>
+                            setSelectedInsurance("Life Insurance")
+                          }
+                        >
+                          <Shield
+                            className={`h-8 w-8 mx-auto ${
+                              selectedInsurance === "Life Insurance"
+                                ? "text-blue-500"
+                                : "text-gray-400"
+                            }`}
+                          />
+                          <p className="mt-2 text-center text-sm font-medium text-gray-800">
+                            Life Insurance
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Form Fields */}
+                      <div className="grid grid-cols-2 gap-4">
+                        <Input
+                          placeholder="First Name"
+                          required
+                          className="border-gray-200 focus:border-blue-500 focus:ring focus:ring-blue-100"
+                        />
+                        <Input
+                          placeholder="Last Name"
+                          required
+                          className="border-gray-200 focus:border-blue-500 focus:ring focus:ring-blue-100"
+                        />
+                      </div>
+                      <Input
+                        type="email"
+                        placeholder="Email Address"
+                        required
+                        className="border-gray-200 focus:border-blue-500 focus:ring focus:ring-blue-100"
+                      />
+                      <Input
+                        type="tel"
+                        placeholder="Phone Number"
+                        required
+                        className="border-gray-200 focus:border-blue-500 focus:ring focus:ring-blue-100"
+                      />
+                      <Input
+                        placeholder="ZIP Code"
+                        required
+                        className="border-gray-200 focus:border-blue-500 focus:ring focus:ring-blue-100"
+                      />
+
+                      {/* Submit Button */}
+                      <Button
+                        type="submit"
+                        className="w-full py-3 text-lg font-semibold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                       >
-                        <div className="grid grid-cols-2 gap-4">
-                          {insuranceTypes.map((type) => (
-                            <button
-                              key={type.label}
-                              type="button"
-                              onClick={() => setSelectedInsurance(type.label)}
-                              className={cn(
-                                "p-4 rounded-xl border-2 transition-all duration-200 flex flex-col items-center gap-2",
-                                selectedInsurance === type.label
-                                  ? "border-blue-600 bg-blue-50"
-                                  : isDark 
-                                    ? "border-gray-700 hover:border-blue-500 bg-gray-800"
-                                    : "border-gray-200 hover:border-blue-200 bg-white"
-                              )}
-                            >
-                              <type.icon className={cn(
-                                "h-6 w-6",
-                                selectedInsurance === type.label
-                                  ? "text-blue-500"
-                                  : isDark ? "text-gray-400" : "text-gray-500"
-                              )} />
-                              <span className={cn(
-                                "text-sm font-medium",
-                                selectedInsurance === type.label
-                                  ? "text-blue-600"
-                                  : isDark ? "text-gray-300" : "text-gray-600"
-                              )}>
-                                {type.label}
-                              </span>
-                            </button>
-                          ))}
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                          <Input
-                            placeholder="First Name"
-                            className={cn(
-                              "rounded-lg",
-                              isDark 
-                                ? "bg-gray-800 border-gray-700 focus:border-blue-500"
-                                : "bg-white border-gray-200 focus:border-blue-600"
-                            )}
-                            required
-                          />
-                          <Input
-                            placeholder="Last Name"
-                            className={cn(
-                              "rounded-lg",
-                              isDark 
-                                ? "bg-gray-800 border-gray-700 focus:border-blue-500"
-                                : "bg-white border-gray-200 focus:border-blue-600"
-                            )}
-                            required
-                          />
-                        </div>
-
-                        <Input
-                          type="email"
-                          placeholder="Email Address"
-                          className={cn(
-                            "rounded-lg",
-                            isDark 
-                              ? "bg-gray-800 border-gray-700 focus:border-blue-500"
-                              : "bg-white border-gray-200 focus:border-blue-600"
-                          )}
-                          required
-                        />
-
-                        <Input
-                          type="tel"
-                          placeholder="Phone Number"
-                          className={cn(
-                            "rounded-lg",
-                            isDark 
-                              ? "bg-gray-800 border-gray-700 focus:border-blue-500"
-                              : "bg-white border-gray-200 focus:border-blue-600"
-                          )}
-                          required
-                        />
-
-                        <Input
-                          placeholder="ZIP Code"
-                          className={cn(
-                            "rounded-lg",
-                            isDark 
-                              ? "bg-gray-800 border-gray-700 focus:border-blue-500"
-                              : "bg-white border-gray-200 focus:border-blue-600"
-                          )}
-                          required
-                        />
-
-                        <Button
-                          type="submit"
-                          className="w-full h-12 text-lg rounded-full bg-blue-600 hover:bg-blue-700 text-white"
-                        >
-                          Get My Free Quote
-                        </Button>
-                      </motion.form>
-                    )}
-                  </AnimatePresence>
+                        Get My Free Quote
+                      </Button>
+                    </form>
+                  )}
                 </Card>
               </div>
             </div>
           </div>
 
-          <div className="relative z-50">
-            <div id="services-section">
-              <ServicesSection />
-            </div>
-            
-            <div id="about-section">
-              <AboutSection />
-            </div>
-            
-            <div id="reviews-section">
-              <TestimonialsSection />
-            </div>
-            
-            <div id="contact-section">
-              {/* Your quote/contact form section */}
-            </div>
-            
-            <CTASection />
+          {/* Services Section */}
+          <div id="services-section" className="relative z-10">
+            <ServicesSection />
+          </div>
+
+          {/* About Section */}
+          <div id="about-section">
+            <AboutSection />
+          </div>
+
+          {/* Reviews Section */}
+          <div id="reviews-section">
+            <ClientReviewsSection />
+          </div>
+
+          {/* Footer Section */}
+          <div id="footer-section" className="relative z-20">
             <Footer />
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
