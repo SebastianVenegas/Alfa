@@ -1,22 +1,23 @@
-"use client"
+"use client";
 
-import "@/styles/globals.css"
-import { Inter } from 'next/font/google'
-import { Navbar } from '@/components/navbar'
-import { TawkToWidget } from '@/components/tawk-to-widget'
-import { ThemeProvider } from '@/contexts/ThemeContext'
-import Script from 'next/script'
+import "@/styles/globals.css";
+import { Inter } from "next/font/google";
+import { Navbar } from "@/components/navbar";
+import { TawkToWidget } from "@/components/tawk-to-widget";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import Script from "next/script";
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
       <head>
+        <title>Alfa Insurance </title> {/* Update the title as needed */}
         <Script id="tawk-script">
           {`
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -34,12 +35,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider>
           <Navbar />
-          <div className="relative">
-            {children}
-          </div>
+          <div className="relative">{children}</div>
           <TawkToWidget />
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }
