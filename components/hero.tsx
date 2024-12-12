@@ -1,150 +1,212 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
-import { Car, Truck, Home, Shield, Mail, Phone, MapPin, Star } from 'lucide-react'
-import { useTheme } from "@/contexts/ThemeContext"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { motion, AnimatePresence } from "framer-motion"
+import confetti from 'canvas-confetti'
+import Image from "next/image"
+import { Car, Truck, Home, Shield } from 'lucide-react'
 
 export function HeroSection() {
-  const { isDark } = useTheme()
-  const [selectedService, setSelectedService] = useState<string | null>(null)
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [selectedInsurance, setSelectedInsurance] = useState<string | null>(null)
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    zipCode: '',
+    insuranceType: ''
+  })
 
-  const services = [
-    { icon: Car, label: "Auto Insurance" },
-    { icon: Truck, label: "Commercial Trucks" },
-    { icon: Home, label: "Property Insurance" },
-    { icon: Shield, label: "Life Insurance" },
-  ]
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    try {
+      // Your form submission logic here
+      
+      // Trigger confetti
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      })
 
-  const formFields = [
-    { icon: Mail, placeholder: "Email Address", type: "email" },
-    { icon: Phone, placeholder: "Phone Number", type: "tel" },
-    { icon: MapPin, placeholder: "ZIP Code", type: "text" },
-  ]
+      // Show success state
+      setIsSubmitted(true)
+
+      // Reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        zipCode: '',
+        insuranceType: ''
+      })
+    } catch (error) {
+      console.error('Error submitting form:', error)
+    }
+  }
 
   return (
-    <section className={cn(
-      "relative min-h-screen flex items-center py-20",
-      isDark ? "bg-gray-900" : "bg-white"
-    )}>
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, x: "-50%", y: "-50%" }}
-          animate={{ opacity: 0.1 }}
-          className="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full blur-3xl" 
-        />
-        <motion.div
-          initial={{ opacity: 0, x: "-50%", y: "-50%" }}
-          animate={{ opacity: 0.1 }}
-          className="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-3xl"
+    <section className="relative min-h-[900px] pt-12">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/Hero.png"
+          alt="Professional Business Setting"
+          fill
+          className="object-cover object-center"
+          priority
+          quality={100}
         />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          
+      <div className="container mx-auto px-8 py-28 relative z-10">
+        <div className="grid lg:grid-cols-5 gap-16 items-center">
           {/* Left column - Content */}
-          <div>
+          <div className="lg:col-span-3">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6"
+              className="space-y-14"
             >
-              <span className="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-medium text-sm mb-6">
-                Trusted by 10,000+ clients
-              </span>
-              
-              <h1 className="text-5xl lg:text-7xl font-bold mb-6">
-                <span className={isDark ? "text-white" : "text-gray-900"}>
-                  Insurance Solutions
+              {/* Trust Badge */}
+              <div className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white">
+                <span className="text-amber-400 text-2xl">⭐</span>
+                <span className="text-[#1E293B] text-xl font-medium">
+                  Trusted by 10,000+ Happy Clients
                 </span>
-                <br />
-                <span className="text-blue-500 font-extrabold">
-                  That Work for You
-                </span>
-              </h1>
-              
-              <p className={cn(
-                "text-xl mb-8",
-                isDark ? "text-gray-300" : "text-gray-600"
-              )}>
-                Get comprehensive coverage for your vehicles, property, and business
-                with personalized service and support.
-              </p>
-            </motion.div>
-
-            <div className="flex items-center gap-6 mb-12">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
-                Start Your Quote →
-              </Button>
-              
-              <div className="flex items-center gap-2">
-                <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                <span className="font-semibold">4.9/5 rating</span>
-                <span className="text-gray-500">from our clients</span>
               </div>
-            </div>
-
-            <blockquote className={cn(
-              "text-lg italic",
-              isDark ? "text-gray-400" : "text-gray-600"
-            )}>
-              "Alfa Insurance made finding the right coverage a breeze. Highly recommended!"
-              <footer className="mt-2 font-medium">- Sarah J., Satisfied Customer</footer>
-            </blockquote>
+              
+              {/* Main Heading */}
+              <h1 className="text-[85px] leading-[1.1] font-bold tracking-tight">
+                <span className="text-white">Protect What</span>
+                <br />
+                <span className="text-[#4169E1]">Matters Most</span>
+              </h1>
+            </motion.div>
           </div>
 
-          {/* Right column - Form */}
-          <div className={cn(
-            "rounded-2xl p-8 shadow-xl",
-            isDark ? "bg-gray-800" : "bg-white"
-          )}>
-            <h2 className={cn(
-              "text-2xl font-bold mb-6",
-              isDark ? "text-white" : "text-gray-900"
-            )}>
-              Get a Free Quote
-            </h2>
-
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              {services.map((service) => (
-                <Button
-                  key={service.label}
-                  variant={selectedService === service.label ? "default" : "outline"}
-                  className="h-auto py-4 px-4 flex flex-col items-center gap-2 transition-all hover:scale-105"
-                  onClick={() => setSelectedService(service.label)}
+          {/* Right column - Form with Success State */}
+          <div className="lg:col-span-2">
+            <AnimatePresence>
+              {!isSubmitted ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="bg-white rounded-2xl p-8 shadow-xl max-w-md w-full mx-auto"
                 >
-                  <service.icon className="w-6 h-6" />
-                  <span className="text-sm">{service.label}</span>
-                </Button>
-              ))}
-            </div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                    Get a Free Quote
+                  </h2>
 
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <Input placeholder="First Name" className="bg-transparent" />
-                <Input placeholder="Last Name" className="bg-transparent" />
-              </div>
-              
-              {formFields.map((field) => (
-                <div key={field.placeholder} className="relative">
-                  <field.icon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <Input
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    className="pl-10 bg-transparent"
-                  />
-                </div>
-              ))}
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      {[
+                        { icon: Car, label: "Auto Insurance" },
+                        { icon: Truck, label: "Commercial Trucks" },
+                        { icon: Home, label: "Property Insurance" },
+                        { icon: Shield, label: "Life Insurance" },
+                      ].map((service) => (
+                        <button
+                          key={service.label}
+                          type="button"
+                          onClick={() => setSelectedInsurance(service.label)}
+                          className={`p-4 rounded-lg border-2 transition-all hover:scale-105 flex flex-col items-center gap-2
+                            ${selectedInsurance === service.label 
+                              ? 'border-blue-600 bg-blue-50 text-blue-600' 
+                              : 'border-gray-200 hover:border-blue-200'}`}
+                        >
+                          <service.icon className="w-6 h-6" />
+                          <span className="text-sm">{service.label}</span>
+                        </button>
+                      ))}
+                    </div>
 
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                Get My Free Quote
-              </Button>
-            </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <input
+                        type="text"
+                        placeholder="First Name"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                        value={formData.firstName}
+                        onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Last Name"
+                        className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                        value={formData.lastName}
+                        onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                      />
+                    </div>
+
+                    <input
+                      type="email"
+                      placeholder="Email Address"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    />
+                    <input
+                      type="tel"
+                      placeholder="Phone Number"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    />
+                    <input
+                      type="text"
+                      placeholder="ZIP Code"
+                      className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                      value={formData.zipCode}
+                      onChange={(e) => setFormData({...formData, zipCode: e.target.value})}
+                    />
+
+                    <button 
+                      type="submit"
+                      className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                    >
+                      Get My Free Quote
+                    </button>
+                  </form>
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="bg-white rounded-2xl p-8 shadow-xl max-w-md w-full mx-auto text-center"
+                >
+                  <div className="mb-4">
+                    <svg
+                      className="w-16 h-16 mx-auto text-green-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Quote Sent Successfully!</h2>
+                  <p className="text-gray-600 mb-6">
+                    We'll get back to you with your personalized quote shortly.
+                  </p>
+                  <button
+                    onClick={() => setIsSubmitted(false)}
+                    className="text-blue-600 hover:text-blue-700 font-medium"
+                  >
+                    Submit another quote
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>

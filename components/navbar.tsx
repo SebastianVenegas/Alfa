@@ -54,8 +54,8 @@ export function Navbar() {
       className={cn(
         "fixed z-50 w-full transition-all duration-500",
         isScrolled 
-          ? "bg-white/80 backdrop-blur-md border-b"
-          : "bg-transparent"
+          ? "bg-white shadow-md"
+          : "bg-white"
       )}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
@@ -76,25 +76,25 @@ export function Navbar() {
         <nav className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-8">
           <button 
             onClick={() => scrollToSection('services-section')}
-            className="text-sm font-medium hover:text-blue-600 transition-colors"
+            className="text-gray-700 text-sm font-medium hover:text-blue-600 transition-colors"
           >
             Services
           </button>
           <button 
             onClick={() => scrollToSection('about-section')}
-            className="text-sm font-medium hover:text-blue-600 transition-colors"
+            className="text-gray-700 text-sm font-medium hover:text-blue-600 transition-colors"
           >
             About Us
           </button>
           <button 
             onClick={() => scrollToSection('reviews-section')}
-            className="text-sm font-medium hover:text-blue-600 transition-colors"
+            className="text-gray-700 text-sm font-medium hover:text-blue-600 transition-colors"
           >
             Reviews
           </button>
           <button 
             onClick={() => scrollToSection('contact-section')}
-            className="text-sm font-medium hover:text-blue-600 transition-colors"
+            className="text-gray-700 text-sm font-medium hover:text-blue-600 transition-colors"
           >
             Contact
           </button>
@@ -109,7 +109,7 @@ export function Navbar() {
 
         <button 
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-2"
+          className="md:hidden p-2 text-gray-700"
         >
           {isMenuOpen ? (
             <X className="h-6 w-6" />
@@ -124,30 +124,30 @@ export function Navbar() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="md:hidden bg-white border-b"
+          className="md:hidden bg-white border-t"
         >
           <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
             <button 
               onClick={() => scrollToSection('services-section')}
-              className="text-sm font-medium py-2 hover:text-blue-600 transition-colors"
+              className="text-gray-700 text-sm font-medium py-2 hover:text-blue-600 transition-colors"
             >
               Services
             </button>
             <button 
               onClick={() => scrollToSection('about-section')}
-              className="text-sm font-medium py-2 hover:text-blue-600 transition-colors"
+              className="text-gray-700 text-sm font-medium py-2 hover:text-blue-600 transition-colors"
             >
               About Us
             </button>
             <button 
               onClick={() => scrollToSection('reviews-section')}
-              className="text-sm font-medium py-2 hover:text-blue-600 transition-colors"
+              className="text-gray-700 text-sm font-medium py-2 hover:text-blue-600 transition-colors"
             >
               Reviews
             </button>
             <button 
               onClick={() => scrollToSection('contact-section')}
-              className="text-sm font-medium py-2 hover:text-blue-600 transition-colors"
+              className="text-gray-700 text-sm font-medium py-2 hover:text-blue-600 transition-colors"
             >
               Contact
             </button>

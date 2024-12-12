@@ -1,61 +1,45 @@
 "use client"
 
-import Link from "next/link"
 import Image from "next/image"
-import { MessageSquare } from "lucide-react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
 export function Header() {
-  const navItems = [
-    { label: "Personal Insurance", href: "#personal" },
-    { label: "Commercial Insurance", href: "#commercial" },
-    { label: "Life & Retirement", href: "#life" },
-    { label: "Auto Registration", href: "#auto" },
-    { label: "Contact", href: "#contact" },
-  ]
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId.replace('#', ''))
-    if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      })
-    }
-  }
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+    <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <Link href="/">
-            <Image 
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image
               src="/logo.png"
-              alt="Logo"
-              width={120}
+              alt="Alfa Insurance Solutions"
+              width={150}
               height={40}
-              className="h-8 w-auto"
+              className="h-10 w-auto"
             />
           </Link>
-          
+
+          {/* Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => scrollToSection(item.href)}
-                className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-              >
-                {item.label}
-              </button>
-            ))}
+            <Link href="/services" className="text-gray-600 hover:text-blue-600 transition-colors">
+              Services
+            </Link>
+            <Link href="/about" className="text-gray-600 hover:text-blue-600 transition-colors">
+              About Us
+            </Link>
+            <Link href="/reviews" className="text-gray-600 hover:text-blue-600 transition-colors">
+              Reviews
+            </Link>
+            <Link href="/contact" className="text-gray-600 hover:text-blue-600 transition-colors">
+              Contact
+            </Link>
           </nav>
-          
-          <div className="flex items-center gap-4">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-              <MessageSquare className="w-4 h-4 mr-2" />
-              Chat Now
-            </Button>
-          </div>
+
+          {/* CTA Button */}
+          <Button className="bg-blue-600 hover:bg-blue-700">
+            Chat Now
+          </Button>
         </div>
       </div>
     </header>
