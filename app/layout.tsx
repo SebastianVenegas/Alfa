@@ -17,7 +17,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Alfa Insurance </title> {/* Update the title as needed */}
+        <title>Alfa Insurance</title>
+        <link rel="icon" href="/favicon.ico" />
         <Script id="tawk-script">
           {`
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
